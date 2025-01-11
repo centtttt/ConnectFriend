@@ -27,6 +27,10 @@ class RegistrationController extends Controller
             'reference' => 'required|string',
             'price' => 'required|integer',
         ]);
+        
+        if (count($request->options) !== count(array_unique($request->options))) {
+            return redirect()->back()->withErrors(['options' => 'Options must not contain duplicate values.'])->withInput();    
+        }
 
         Profile::create([
             'user_id' => Auth()->id(),

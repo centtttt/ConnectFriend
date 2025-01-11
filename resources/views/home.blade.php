@@ -1,34 +1,38 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-5">
+    <div class="container mt-1">
         <header class="text-center mb-4">
-            <h1>Welcome to Job Showcase</h1>
+            <h1>Welcome to ConnectFriend</h1>
             <p>Explore users showcasing their profession and field of work.</p>
         </header>
-
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <h5>Filter by Gender</h5>
-                <select class="form-select" id="genderFilter">
-                    <option value="">All</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
+        
+        <form action="{{ route('home.index') }}" method="GET">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h5>Filter by Gender</h5>
+                    <select class="form-select" id="genderFilter" name="genderFilter" onchange="this.form.submit()">
+                        <option value="" {{ request('genderFilter') == '' ? 'selected' : '' }}>All</option>
+                        <option value="Male" {{ request('genderFilter') == 'Male' ? 'selected' : '' }}>Male</option>
+                        <option value="Female" {{ request('genderFilter') == 'Female' ? 'selected' : '' }}>Female</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-6">
+                    <h5>Search by Field of Work</h5>
+                    <input type="text" id="fieldSearch" name="fieldSearch" class="form-control" placeholder="Enter field of work" value="{{ request('fieldSearch') }}">
+                </div>
             </div>
-            <div class="col-md-6">
-                <h5>Search by Field of Work</h5>
-                <input type="text" id="fieldSearch" class="form-control" placeholder="Enter field of work">
-            </div>
-        </div>
+        </form>
 
-        <div class="row" id="userCards">
+        <div class="row">
             @foreach ($dataUsers as $user)
-                <div class="col-md-4 mb-3 user-card">
+                <div class="col-md-4 mb-3 user-card" style="cursor: pointer;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
                     <div class="card h-100">
-                        <img src="{{ $user->profileURL }}" class="card-img-top" alt="error">
+                        <img src="{{ $user->profileURL ?? asset('images/userdummy.png') }}" class="card-img-top" alt="error">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">{{ $user->name }}</h5>
+                            <h4 class="card-title">{{ $user->name }}</h4>   
+                            <h6 class="card-title">({{ $user->gender }})</h6>   
                             <div class="pb-2">
                                 <p class="card-text">Field of Work: </p>
                                 <div class="d-flex flex-wrap gap-2">
@@ -41,9 +45,9 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <div class="mt-auto gap-2 d-flex justify-content-end align-items-end">
-                                <button class="btn btn-primary">View Profile</button>
-                                <button class="btn btn-outline-success">Thumb</button>
+                            <div class="mt-auto pt-4 gap-3 d-flex justify-content-center align-items-end">
+                                <button class="btn btn-outline-primary">View Profile</button>
+                                <button class="btn btn-outline-success">👍</button>
                             </div>
                         </div>
                     </div>

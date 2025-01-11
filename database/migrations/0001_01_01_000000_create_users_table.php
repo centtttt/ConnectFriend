@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('is_registered')->default(false);
             $table->boolean('has_paid')->default(false);
+            $table->boolean('visibility')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });
