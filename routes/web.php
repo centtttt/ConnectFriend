@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FriendProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
@@ -12,6 +13,7 @@ Route::resource('/home', HomeController::class);
 
 Route::middleware(['auth', 'checkStatus'])->group(function(){
     Route::resource('/profile', ProfileController::class);
+    Route::resource('/friend-profile', FriendProfileController::class);
 });
 
 Route::middleware(['auth', 'checkUserStatus'])->group(function(){

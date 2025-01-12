@@ -67,7 +67,7 @@
                                                         <p class="text-muted mb-0" style="font-size: 0.85rem;">{{ $uf->friend->profile->gender }}</p>
                                                     </div>
                                                     <div class="d-flex flex-column" style="margin-left: auto;">
-                                                        <a href="{{ route('profile.index', $uf->friend->id) }}" class="btn btn-sm btn-outline-primary">View Profile</a>
+                                                        <a href="{{ route('friend-profile.show', $uf->friend->id) }}" class="btn btn-sm btn-outline-primary">View Profile</a>
                                                     </div>
                                                 </div>
                                             </div>

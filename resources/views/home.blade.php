@@ -32,9 +32,12 @@
 
         <div class="row">
             @foreach ($dataUsers as $user)
-                <div class="col-md-4 mb-3 user-card" style="cursor: pointer;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
+                <div class="col-md-4 mb-3 user-card" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
                     <div class="card h-100">
-                        <img src="{{ asset($user->profile->profileURL ? 'storage/' . $user->profile->profileURL : 'images/userdummy.png') }}" class="card-img-top" alt="error" style="width: 100%; height: 20rem; object-fit: cover;">
+                        <a href="{{ route('friend-profile.show', $user->id) }}">
+                            <img src="{{ asset($user->profile->profileURL ? 'storage/' . $user->profile->profileURL : 'images/userdummy.png') }}" class="card-img-top" alt="error" style="width: 100%; height: 20rem; object-fit: cover;">
+                        </a>
+                        
                         <div class="card-body d-flex flex-column">
                             <h4 class="card-title">{{ $user->name }}</h4>   
                             <h6 class="card-title">({{ $user->gender }})</h6>   
@@ -52,7 +55,9 @@
                             </div>
 
                             <div class="mt-auto pt-4 gap-3 d-flex justify-content-center align-items-end">
-                                <button class="btn btn-outline-primary">View Profile</button>
+                                <a href="{{ route('friend-profile.show', $user->id) }}">
+                                    <button class="btn btn-outline-primary">View Profile</button>
+                                </a>
                                 <form action="{{ route('home.store') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="friend_id" value="{{ $user->id }}">
