@@ -53,15 +53,29 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link d-block d-sm-none" href="{{ route('home') }}">
+                                    {{ __('Home') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('notification.index') }}">
+                                    <img style="width: 1rem;" src="{{ asset('/images/2027454.png') }}" alt="error">
+                                    <span>Notification</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('message.show', 0) }}">
+                                    <img style="width: 1rem;" src="{{ asset('/images/11255939.png') }}" alt="error">
+                                    <span>Message</span>
+                                </a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item d-block d-sm-none" href="{{ route('home') }}">
-                                        {{ __('Home') }}
-                                    </a>
                                     <a class="dropdown-item" href="{{ route('profile.index') }}">
                                         {{ __('Profile') }}
                                     </a>

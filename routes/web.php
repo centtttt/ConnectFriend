@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\FriendProfileController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationController;
@@ -14,6 +16,8 @@ Route::resource('/home', HomeController::class);
 Route::middleware(['auth', 'checkStatus'])->group(function(){
     Route::resource('/profile', ProfileController::class);
     Route::resource('/friend-profile', FriendProfileController::class);
+    Route::resource('/message', MessageController::class);
+    Route::resource('/notification', NotificationController::class);
 });
 
 Route::middleware(['auth', 'checkUserStatus'])->group(function(){
