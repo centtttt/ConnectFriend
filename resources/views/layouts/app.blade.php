@@ -62,7 +62,7 @@
                                     <a class="dropdown-item d-block d-sm-none" href="{{ route('home') }}">
                                         {{ __('Home') }}
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('profile') }}">
+                                    <a class="dropdown-item" href="{{ route('profile.index') }}">
                                         {{ __('Profile') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"

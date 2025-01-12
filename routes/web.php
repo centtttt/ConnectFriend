@@ -11,7 +11,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::resource('/home', HomeController::class);
 
 Route::middleware(['auth', 'checkProfileStatus'])->group(function(){
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::resource('/profile', ProfileController::class);
 });
 
 Route::middleware(['auth', 'checkUserStatus'])->group(function(){

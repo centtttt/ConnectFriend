@@ -16,7 +16,11 @@
                     <div class="card-body">
                         @foreach ($users as $user)
                             <div class="text-center mb-4">
-                                <img src="{{ $user->profile->profileURL ?? asset('images/userdummy.png') }}" alt="error" class="rounded-circle shadow m-4 mb-1" style="width: 150px; height: 150px; object-fit: cover;">
+                                <div class="d-flex flex-column align-items-center justify-content-center">
+                                    <img src="{{ asset($user->profile->profileURL ? 'storage/' . $user->profile->profileURL : 'images/userdummy.png') }}" alt="error" class="rounded-circle shadow m-4 mb-1" style="width: 150px; height: 150px; object-fit: cover;">
+                                    <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#editPhotoModal">Edit Profile Picture
+                                    </button>
+                                </div>
                             </div>
 
                             <h5 class="text-center fw-bold mb-3">{{ $user->name }}</h5>
@@ -36,28 +40,34 @@
                                 </li>
                                 <li class="list-group-item">
                                     <strong>LinkedIn:</strong> 
-                                    <a href="{{ $user->profile->linkedin }}" target="_blank">{{ $user->profile->linkedin }}</a>
+                                    <a href="{{ $user->profile->linkedin }}" target="_blank"> {{ $user->profile->linkedin }}</a>
                                 </li>
                                 <li class="list-group-item">
                                     <strong>Mobile Number:</strong> {{ $user->profile->mobile_number }}
                                 </li>
                                 <li class="list-group-item">
-                                    <strong>Coins:</strong> {{ $user->profile->coins }}
-                                    <button class="btn btn-outline-success ml-4">Top Up Coins</button>
+                                    <div class="d-flex flex-col">
+                                        <div class="d-flex align-items-center">
+                                            <strong>Coins: <span class="fw-normal text-success">{{ $user->profile->coins }}</span></strong> 
+                                        </div>
+                                        <div class="d-flex" style="margin-left: auto;">
+                                            <button class="btn btn-outline-success">Top Up Coins</button>
+                                        </div>
+                                    </div>
                                 </li>
                                 <li class="list-group-item">
                                     <strong>Friend List:</strong>
                                     <div class="row">
-                                        @foreach ($users as $user)
+                                        @foreach ($Userfriend as $uf)
                                             <div class="card shadow-sm border-0 h-100">
                                                 <div class="d-flex flex-row justify-content-center align-items-center card-body gap-3">
-                                                    <img src="{{ $user->profile->profileURL ?? asset('images/userdummy.png') }}" alt="error" class="rounded-circle shadow" style="width: 40px; height: 40px; object-fit: cover;">
+                                                    <img src="{{ asset($uf->friend->profile->profileURL ? 'storage/' . $uf->friend->profile->profileURL : 'images/userdummy.png') }}" alt="error" class="rounded-circle shadow" style="width: 40px; height: 40px; object-fit: cover;">
                                                     <div class="d-flex flex-column">
-                                                        <h6 class="fw-bold mb-0">{{ $user->name }}</h6>
-                                                        <p class="text-muted mb-0" style="font-size: 0.85rem;">{{ $user->profile->gender }}</p>
+                                                        <h6 class="fw-bold mb-0">{{ $uf->friend->name }}</h6>
+                                                        <p class="text-muted mb-0" style="font-size: 0.85rem;">{{ $uf->friend->profile->gender }}</p>
                                                     </div>
                                                     <div class="d-flex flex-column" style="margin-left: auto;">
-                                                        <a href="{{ route('profile', $user->id) }}" class="btn btn-sm btn-outline-primary">View Profile</a>
+                                                        <a href="{{ route('profile.index', $uf->friend->id) }}" class="btn btn-sm btn-outline-primary">View Profile</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -67,6 +77,29 @@
                             </ul>
                         @endforeach
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal -->
+    <div class="modal fade" id="editPhotoModal" tabindex="-1" aria-labelledby="editPhotoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPhotoModalLabel">Edit Profile Picture</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('profile.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-3">
+                            <label for="profilePhoto" class="form-label">Choose a new profile picture</label>
+                            <input class="form-control" type="file" id="profilePhoto" name="profilePhoto" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Upload Photo</button>
+                    </form>
                 </div>
             </div>
         </div>

@@ -6,6 +6,11 @@
             <h1>Welcome to ConnectFriend</h1>
             <p>Explore users showcasing their profession and field of work.</p>
         </header>
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         
         <form action="{{ route('home.index') }}" method="GET">
             <div class="row mb-4">
@@ -29,7 +34,7 @@
             @foreach ($dataUsers as $user)
                 <div class="col-md-4 mb-3 user-card" style="cursor: pointer;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
                     <div class="card h-100">
-                        <img src="{{ $user->profileURL ?? asset('images/userdummy.png') }}" class="card-img-top" alt="error">
+                        <img src="{{ asset($user->profile->profileURL ? 'storage/' . $user->profile->profileURL : 'images/userdummy.png') }}" class="card-img-top" alt="error" style="width: 100%; height: 20rem; object-fit: cover;">
                         <div class="card-body d-flex flex-column">
                             <h4 class="card-title">{{ $user->name }}</h4>   
                             <h6 class="card-title">({{ $user->gender }})</h6>   
@@ -45,9 +50,14 @@
                                     @endforeach
                                 </div>
                             </div>
+
                             <div class="mt-auto pt-4 gap-3 d-flex justify-content-center align-items-end">
                                 <button class="btn btn-outline-primary">View Profile</button>
-                                <button class="btn btn-outline-success">👍</button>
+                                <form action="{{ route('home.store') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="friend_id" value="{{ $user->id }}">
+                                    <button type="submit" class="btn btn-outline-success">👍</button>
+                                </form>
                             </div>
                         </div>
                     </div>
