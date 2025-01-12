@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class checkProfileStatus
+class checkStatus
 {
     /**
      * Handle an incoming request.

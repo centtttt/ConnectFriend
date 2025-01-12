@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'checkUserStatus' => \App\Http\Middleware\checkUserStatus::class,
             'checkPaymentStatus' => \App\Http\Middleware\checkPaymentStatus::class,
-            'checkProfileStatus' => \App\Http\Middleware\checkProfileStatus::class,
+            'checkStatus' => \App\Http\Middleware\checkStatus::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

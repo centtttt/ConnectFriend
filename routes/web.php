@@ -10,7 +10,7 @@ Use Illuminate\Support\Facades\Auth;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::resource('/home', HomeController::class);
 
-Route::middleware(['auth', 'checkProfileStatus'])->group(function(){
+Route::middleware(['auth', 'checkStatus'])->group(function(){
     Route::resource('/profile', ProfileController::class);
 });
 
