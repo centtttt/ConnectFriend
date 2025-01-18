@@ -40,14 +40,14 @@
                         <h5 class="mb-0">{{ $currentChatUser->name ?? 'Select a contact' }}</h5>
                         <small>Online</small>
                     </div>
-                    <div class="card-body" style="height: 500px; overflow-y: auto; background-color: #f7f7f7;">
+                    <div class="card-body" style="height: 400px; overflow-y: auto; background-color: #f7f7f7;">
                         @forelse($messages as $message)
                             @if($message->sender_id === auth()->id())
                                 {{-- Pesan dari Pengguna --}}
                                 <div class="d-flex justify-content-end mb-3">
                                     <div class="bg-primary text-white p-3 rounded" style="max-width: 70%;">
                                         <p class="mb-0">{{ $message->message }}</p>
-                                        <small class="d-block text-end mt-1">{{ $message->created_at->format('H:i') }}</small>
+                                        <small class="d-block text-end mt-1">{{ $message->created_at->setTimezone('Asia/Jakarta')->format('H:i') }}</small>
                                     </div>
                                 </div>
                             @else
@@ -55,7 +55,7 @@
                                 <div class="d-flex justify-content-start mb-3">
                                     <div class="bg-success text-white p-3 rounded" style="max-width: 70%;">
                                         <p class="mb-0">{{ $message->message }}</p>
-                                        <small class="d-block text-start mt-1">{{ $message->created_at->format('H:i') }}</small>
+                                        <small class="d-block text-start mt-1">{{ $message->created_at->setTimezone('Asia/Jakarta')->format('H:i') }}</small>
                                     </div>
                                 </div>
                             @endif

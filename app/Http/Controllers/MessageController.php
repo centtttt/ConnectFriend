@@ -42,6 +42,7 @@ class MessageController extends Controller
             'sender_id' => $senderId,
             'receiver_id' => $request->receiver_id,
             'message' => $request->content,
+            'message_delivered' => false,
         ]);
 
         return redirect()->route('message.show', $request->receiver_id);
@@ -57,7 +58,7 @@ class MessageController extends Controller
         $users = Friend::where('friend_id', '=', $authUserId)->where('is_accepted', true)->get();
 
         $currentChatUser = $userId ? User::find($userId) : null;
-         
+        
         $messages = [];
         if ($currentChatUser) {
             $messages = Message::where(function ($query) use ($authUserId, $userId) {
@@ -67,6 +68,12 @@ class MessageController extends Controller
                 $query->where('sender_id', $userId)
                       ->where('receiver_id', $authUserId);
             })->orderBy('created_at', 'asc')->get();
+
+            foreach ($messages as $message) {
+                if ($message->receiver_id == $authUserId && !$message->message_delivered) {
+                    $message->update(['message_delivered' => true]);
+                }
+            }
         }
 
         return view('message', compact('users', 'currentChatUser', 'messages'));

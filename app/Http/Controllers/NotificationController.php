@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Friend;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +15,25 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        return view('notification');
+        $user_id = Auth::id();
+        $friend = Friend::where('friend_id', $user_id)->where('is_accepted', false)->get(); 
+        $userId = 1;
+       
+        $users = Friend::where('friend_id', $user_id)->where('is_accepted', true)->get();
+
+        $currentChatUser = $userId ? User::find($userId) : null;
+        
+        $messages = [];
+        if ($currentChatUser) {
+            $messages = Message::where(function ($query) use ($user_id, $userId) {
+                $query->where('sender_id', $userId)
+                      ->where('receiver_id', $user_id);
+            })->with('user')->select('sender_id')->get();
+        }
+
+        // dd($messages);
+
+        return view('notification', compact('friend', 'messages', 'users'));
     }
 
     /**
@@ -29,15 +49,49 @@ class NotificationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $userId = Auth::id();
+        $friendId = $request->friend_id;
+
+        $existingFriend = Friend::where('user_id', $userId)
+                                ->where('friend_id', $friendId)
+                                ->first();
+
+        if (!$existingFriend) {
+            Friend::create([
+                'user_id' => $userId,
+                'friend_id' => $friendId,
+                'is_accepted' => false,
+            ]);
+        }
+
+        $reciprocalRequest = Friend::where('user_id', $friendId)
+                                   ->where('friend_id', $userId)
+                                   ->first();
+
+        if ($reciprocalRequest) {
+            $reciprocalRequest->update(['is_accepted' => true]);
+            $existingFriend2 = Friend::where('user_id', $userId)
+                  ->where('friend_id', $friendId)
+                  ->first();
+
+            if ($existingFriend2) {
+                $existingFriend2->update(['is_accepted' => true]);
+            }
+
+            if ($reciprocalRequest->is_accepted && $existingFriend2 && $existingFriend2->is_accepted) {
+                return redirect()->back()->with('success', 'You are connected as friends!');
+            }
+        }
+
+        return redirect()->back()->with('success', 'Friend request sent!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $userId)
     {
-        
+
     }
 
     /**
@@ -59,8 +113,10 @@ class NotificationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $friend)
     {
-        //
+        Friend::where('friend_id', $friend)->where('is_accepted', false)->delete();
+        
+        return redirect()->back()->with('success', 'Friend request successfully rejected.');
     }
 }

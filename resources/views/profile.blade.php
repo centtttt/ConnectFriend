@@ -66,8 +66,18 @@
                                                         <h6 class="fw-bold mb-0">{{ $uf->friend->name }}</h6>
                                                         <p class="text-muted mb-0" style="font-size: 0.85rem;">{{ $uf->friend->profile->gender }}</p>
                                                     </div>
-                                                    <div class="d-flex flex-column" style="margin-left: auto;">
-                                                        <a href="{{ route('friend-profile.show', $uf->friend->id) }}" class="btn btn-sm btn-outline-primary">View Profile</a>
+                                                    <div class="d-flex flex-row" style="margin-left: auto; gap: 0.5rem;">
+                                                        <div>
+                                                            <form action="{{ route('profile.destroy', $uf->friend->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button class="btn btn-sm btn-outline-primary">Remove Friend</button>
+                                                            </form>
+                                                        </div>
+                                                        
+                                                        <div>
+                                                            <a href="{{ route('friend-profile.show', $uf->friend->id) }}" class="btn btn-sm btn-outline-primary">View Profile</a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

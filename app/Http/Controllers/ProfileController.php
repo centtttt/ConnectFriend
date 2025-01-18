@@ -37,4 +37,14 @@ class ProfileController extends Controller
 
         return redirect()->back();
     }
+
+    public function destroy(string $id){
+        $user = Auth::id();
+
+        Friend::where('user_id', $user)->where('friend_id', $id)->where('is_accepted', true)->delete();
+
+        Friend::where('user_id', $id)->where('friend_id', $user)->where('is_accepted', true)->delete();
+        
+        return redirect()->route('profile.index');
+    }
 }
