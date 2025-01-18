@@ -17,21 +17,18 @@ class NotificationController extends Controller
     {
         $user_id = Auth::id();
         $friend = Friend::where('friend_id', $user_id)->where('is_accepted', false)->get(); 
-        $userId = 1;
        
         $users = Friend::where('friend_id', $user_id)->where('is_accepted', true)->get();
 
-        $currentChatUser = $userId ? User::find($userId) : null;
-        
-        $messages = [];
-        if ($currentChatUser) {
-            $messages = Message::where(function ($query) use ($user_id, $userId) {
-                $query->where('sender_id', $userId)
-                      ->where('receiver_id', $user_id);
-            })->with('user')->select('sender_id')->get();
-        }
-
-        // dd($messages);
+        $messages = Message::where(function ($query) use ($user_id) {
+            $query->where('sender_id', $user_id)
+                  ->where('message_delivered', false)
+                  ->where('sender_id', '!=', $user_id);
+        })
+        ->orWhere(function ($query) use ($user_id) {
+            $query->where('receiver_id', $user_id)
+                  ->where('message_delivered', false);
+        })->with('receiver')->get();
 
         return view('notification', compact('friend', 'messages', 'users'));
     }

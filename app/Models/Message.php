@@ -11,11 +11,6 @@ class Message extends Model
     protected $table = 'messages';
     protected $guarded = [];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
     public function sender()
     {
         return $this->belongsTo(User::class, 'sender_id');

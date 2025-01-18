@@ -12,7 +12,7 @@
         </div>
     @endif
 
-    <div class="m-4">
+    <div class="container   ">
         <ul class="nav nav-tabs mb-3" id="notificationTabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="friend-requests-tab" data-bs-toggle="tab" href="#friend-requests" role="tab"
@@ -63,13 +63,25 @@
             <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">
                 <h5>Messages</h5>
                 <ul class="list-group mb-2">
-                    @forelse ($messages as $message)
-                        <li class="list-group-item">
-                            <h5 class="card-title">{{ $message->user->name }}</h5>
-                            <p class="card-text"></p>
-                            <p class="text-muted">Received: 5 january 2025</p>
+                    @if ($messages->isEmpty())
+                        <li class="list-group-item text-start">
+                            <span>No friend messages at the moment.</span>
                         </li>
-                    @endforeach
+                    @else
+                        @foreach ($messages as $message)
+                            <li class="list-group-item d-flex justify-content-center align-items-center">
+                                <div>
+                                    <h5 class="card-title">{{ $message->sender->name }}</h5>
+                                    <p class="card-text">{{ $message->message }}</p>
+                                    <p class="text-muted">Received: {{ $message->created_at->diffForHumans() }}</p>
+                                </div>
+                                <a href="{{ route('message.show', $message->sender->id) }}" 
+                                    class="btn btn-sm btn-outline-primary ms-auto">
+                                    Reply
+                                </a>
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
             </div>
         </div>
