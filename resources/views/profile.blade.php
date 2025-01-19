@@ -26,7 +26,10 @@
                         @foreach ($users as $user)
                         <div class="text-center mb-4">
                             <div class="d-flex flex-column align-items-center justify-content-center">
-                                <img src="{{ asset($user->profile->profileURL ? 'storage/' . $user->profile->profileURL : 'images/userdummy.png') }}" alt="error" class="rounded-circle shadow m-4 mb-1" style="width: 150px; height: 150px; object-fit: cover;">
+                                <img src="{{ asset(
+                                    $user->visibility ? 
+                                    ($user->profile->profileURL ? 'storage/' . $user->profile->profileURL : 'images/userdummy.png') :
+                                    'images/bear' . rand(1, 3) . '.jpg') }}" alt="error" class="rounded-circle shadow m-4 mb-1" style="width: 150px; height: 150px; object-fit: cover;">
                                 <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#editPhotoModal">Edit Profile Picture
                                     </button>
                                 </div>
@@ -67,7 +70,7 @@
                                     </div>
                                 </li>
                                 <div class="text-center mb-4 mt-2">
-                                    <h6 class="fw-bold">Visibility Settings</h6>
+                                    <h6 class="fw-bold">Visibility Settings:</h6>
                                     <form action="{{ route('profile.store') }}" method="POST" class="d-inline">
                                         @csrf
                                         @if ($user->visibility == true)

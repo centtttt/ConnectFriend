@@ -57,7 +57,6 @@ class ProfileController extends Controller
             if ($user->profile->coins >= 50) {
                 $user->visibility = false;
                 $user->profile->coins -= 50;
-                $user->profile->profileURL = '/images/bear' . rand(1, 3) . '.jpg';
                 $user->profile->save();
                 $user->save();
 
@@ -70,7 +69,6 @@ class ProfileController extends Controller
             if ($user->profile->coins >= 5) {
                 $user->visibility = true;
                 $user->profile->coins -= 5;
-                $user->profile->profileURL = null;
                 $user->profile->save();
                 $user->save();
 
