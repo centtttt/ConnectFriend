@@ -21,7 +21,6 @@ Route::middleware(['auth', 'checkStatus'])->group(function(){
     Route::resource('/message', MessageController::class);
     Route::resource('/notification', NotificationController::class);
     Route::resource('/topup', TopUpController::class);
-    Route::resource('/avatar', AvatarController::class);
 });
 
 Route::middleware(['auth', 'checkUserStatus'])->group(function(){

@@ -20,12 +20,12 @@ class HomeController extends Controller
         $this->middleware('auth')->only('store');
     }
     public function index(Request $request)
-    {
+    {   
         $inputSearch = $request->input('fieldSearch');
         $filterSearch = $request->input('genderFilter');
         $loggedInUserId = Auth::user();
 
-        $query = User::join('profile as p', 'p.user_id', '=', 'users.id')
+        $query = User::where('visibility', true)->join('profile as p', 'p.user_id', '=', 'users.id')
                     ->join('jobfield as jf', 'jf.user_id', '=', 'users.id')->select('users.*', 'p.gender');
 
         if (Auth::check()) {
@@ -44,7 +44,7 @@ class HomeController extends Controller
         $dataUsers = $query->distinct()->get();
         $jobfields = Job::all();
 
-        return view('home', compact('dataUsers', 'jobfields'));
+        return view('home', compact('dataUsers', 'jobfields')); 
     }
 
     public function create()

@@ -27,9 +27,6 @@
                 <a class="navbar-brand d-none d-lg-block" href="{{ route('home') }}">
                     {{ 'Home' }}
                 </a>
-                <a class="navbar-brand d-none d-lg-block" href="{{ route('avatar.index') }}">
-                    {{ 'Shop' }}
-                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -63,9 +60,6 @@
                             <li class="nav-item">
                                 <a class="nav-link d-block d-sm-none" href="{{ route('home') }}">
                                     {{ __('Home') }}
-                                </a>
-                                <a class="nav-link d-block d-sm-none" href="{{ route('avatar.index') }}">
-                                    {{ 'Shop' }}
                                 </a>
                             </li>
                             <li class="nav-item">

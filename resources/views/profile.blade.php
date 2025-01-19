@@ -6,6 +6,15 @@
             <h1>My Profile</h1>
             <p>Manage your personal information and keep it up to date.</p>
         </header>
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @elseif (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
 
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -15,21 +24,21 @@
                     </div>
                     <div class="card-body">
                         @foreach ($users as $user)
-                            <div class="text-center mb-4">
-                                <div class="d-flex flex-column align-items-center justify-content-center">
-                                    <img src="{{ asset($user->profile->profileURL ? 'storage/' . $user->profile->profileURL : 'images/userdummy.png') }}" alt="error" class="rounded-circle shadow m-4 mb-1" style="width: 150px; height: 150px; object-fit: cover;">
-                                    <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#editPhotoModal">Edit Profile Picture
+                        <div class="text-center mb-4">
+                            <div class="d-flex flex-column align-items-center justify-content-center">
+                                <img src="{{ asset($user->profile->profileURL ? 'storage/' . $user->profile->profileURL : 'images/userdummy.png') }}" alt="error" class="rounded-circle shadow m-4 mb-1" style="width: 150px; height: 150px; object-fit: cover;">
+                                <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#editPhotoModal">Edit Profile Picture
                                     </button>
                                 </div>
                             </div>
-
+                            
                             <h5 class="text-center fw-bold mb-3">{{ $user->name }}</h5>
-
+                            
                             <div class="text-center">
                                 <strong class="fw-bold">Job Fields:</strong>
                                 <ul class="list-unstyled">
                                     @foreach ($jobfield as $jf)
-                                        <li class="badge bg-primary text-white mx-1">{{ $jf->jobfieldname }}</li>
+                                    <li class="badge bg-primary text-white mx-1">{{ $jf->jobfieldname }}</li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -57,6 +66,21 @@
                                         </div>
                                     </div>
                                 </li>
+                                <div class="text-center mb-4 mt-2">
+                                    <h6 class="fw-bold">Visibility Settings</h6>
+                                    <form action="{{ route('profile.store') }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @if ($user->visibility == true)
+                                            <button type="submit" name="visibility" value="disappear" class="btn btn-danger w-100">
+                                                Disappear (50 Coins)
+                                            </button>
+                                        @else
+                                            <button type="submit" name="visibility" value="reappear" class="btn btn-success w-100">
+                                                Reappear (5 Coins)
+                                            </button>
+                                        @endif
+                                    </form>
+                                </div>
                                 <li class="list-group-item">
                                     <strong>Friend List:</strong>
                                     <div class="row">

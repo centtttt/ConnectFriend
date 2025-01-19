@@ -47,4 +47,39 @@ class ProfileController extends Controller
         
         return redirect()->route('profile.index');
     }
+
+    public function store(Request $request)
+    {
+        $user = auth()->user();
+        $action = $request->input('visibility');
+
+        if ($action == 'disappear') {
+            if ($user->profile->coins >= 50) {
+                $user->visibility = false;
+                $user->profile->coins -= 50;
+                $user->profile->profileURL = '/images/bear' . rand(1, 3) . '.jpg';
+                $user->profile->save();
+                $user->save();
+
+                return back()->with('success', 'You are now hidden from the list.');
+            } else {
+                return back()->with('error', 'Not enough coins to disappear.');
+            }
+        }
+        elseif ($action == 'reappear') {
+            if ($user->profile->coins >= 5) {
+                $user->visibility = true;
+                $user->profile->coins -= 5;
+                $user->profile->profileURL = null;
+                $user->profile->save();
+                $user->save();
+
+                return back()->with('success', 'You are now visible again.');
+            } else {
+                return back()->with('error', 'Not enough coins to reappear.');
+            }
+        } else {
+            return back()->with('error', 'Invalid action.');
+        }
+    }
 }
