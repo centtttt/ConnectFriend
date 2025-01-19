@@ -51,7 +51,9 @@
                                             <strong>Coins: <span class="fw-normal text-success">{{ $user->profile->coins }}</span></strong> 
                                         </div>
                                         <div class="d-flex" style="margin-left: auto;">
-                                            <button class="btn btn-outline-success">Top Up Coins</button>
+                                            <a href="{{ route('topup.index') }}">
+                                                <button class="btn btn-outline-success">Top Up Coins</button>
+                                            </a>
                                         </div>
                                     </div>
                                 </li>

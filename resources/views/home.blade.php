@@ -3,8 +3,8 @@
 @section('content')
     <div class="container mt-1">
         <header class="text-center mb-4">
-            <h1>Welcome to ConnectFriend</h1>
-            <p>Explore users showcasing their profession and field of work.</p>
+            <h1>@lang('bahasa.hometittle')</h1>
+            <p>@lang('bahasa.homesubtittle')</p>
         </header>
         @if (session('success'))
             <div class="alert alert-success">

@@ -12,6 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
+        $middleware->web([
+            \App\Http\Middleware\SetLocale::class,
+        ]);
+
         $middleware->alias([
             'checkUserStatus' => \App\Http\Middleware\checkUserStatus::class,
             'checkPaymentStatus' => \App\Http\Middleware\checkPaymentStatus::class,
